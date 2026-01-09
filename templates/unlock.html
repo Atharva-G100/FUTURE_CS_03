@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unlock File</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #e0eafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; }
+        input[type="text"] { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; margin: 20px 0; font-family: monospace; }
+        button { background: #27ae60; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; }
+        button:hover { background: #219150; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Unlock File</h1>
+        <p>Enter the decryption key for: <strong>{{ filename }}</strong></p>
+        
+        <form action="/decrypt" method="POST">
+            <input type="hidden" name="filename" value="{{ filename }}">
+            
+            <input type="text" name="key" placeholder="Paste your key here..." required autocomplete="off">
+            <button type="submit">Decrypt & Download</button>
+        </form>
+    </div>
+</body>
+</html>

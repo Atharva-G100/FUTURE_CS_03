@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureVault - Encrypted File Share</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* --- CSS START --- */
+        
+        /* Reset & Global Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Modern gradient background */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            margin: 0;
+            min-height: 100vh; /* Ensure full height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* The Main Card Container */
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 550px;
+            padding: 40px;
+            border-radius: 20px;
+            /* Deep, soft shadow for a "floating" effect */
+            box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+            /* Simple entrance animation */
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Headers & Branding */
+        .header-section {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .brand-logo {
+            font-size: 48px;
+            color: #6a62d6; /* Purple color for lock icon */
+        }
+
+        h1 {
+            margin: 10px 0 5px 0;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        
+        p.subtitle {
+            color: #718096;
+            margin: 0;
+            font-size: 0.95em;
+        }
+
+        /* Upload Section Styling */
+        .upload-wrapper {
+            background: #f8faff;
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .upload-wrapper:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        /* Styling the ugly default file input */
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            color: #718096;
+        }
+
+        /* The Main Upload Button */
+        .upload-btn {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            /* Gradient button */
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1);
+        }
+
+        /* Section Divider */
+        h3.section-title {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #4a5568;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* File List Styling */
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .file-item {
+            background: #fff;
+            border: 1px solid #edf2f7;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .file-item:hover {
+            border-color: #cbd5e0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            color: #2d3748;
+            overflow: hidden; /* Prevent long filenames breaking layout */
+        }
+
+        .file-icon-locked {
+            color: #e53e3e; /* Red color for locked icon */
+        }
+
+        /* Download Button */
+        a.download-btn {
+            text-decoration: none;
+            color: #4299e1;
+            background: #ebf8ff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        a.download-btn:hover {
+            background-color: #4299e1;
+            color: white;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: #a0aec0;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+
+        /* Helper class for icons */
+        .material-icons.md-18 { font-size: 18px; }
+        .material-icons.md-24 { font-size: 24px; }
+        .material-icons.md-36 { font-size: 36px; }
+        
+        /* --- CSS END --- */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-section">
+            <span class="material-icons brand-logo">verified_user</span>
+            <h1>SecureVault</h1>
+            <p class="subtitle">AES-256 Military-Grade Encryption</p>
+        </div>
+        
+        <div class="upload-wrapper">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" required>
+                <button type="submit" class="upload-btn">
+                    <span class="material-icons">lock</span>
+                    Encrypt & Upload
+                </button>
+            </form>
+        </div>
+
+        <h3 class="section-title">
+            <span class="material-icons">storage</span>
+            Encrypted Repository
+        </h3>
+        
+        <div class="file-list">
+            {% if files %}
+                {% for file in files %}
+                    <div class="file-item">
+                        <div class="file-info">
+                            <span class="material-icons file-icon-locked">lock_outline</span>
+                            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">{{ file }}</span>
+                        </div>
+                        <a class="download-btn" href="/unlock/{{ file }}">
+                            <span class="material-icons md-18">vpn_key</span>
+                            Decrypt
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-msg">
+                    <span class="material-icons md-36" style="display:block; margin-bottom: 10px;">cloud_off</span>
+                    No encrypted files found in storage.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>
